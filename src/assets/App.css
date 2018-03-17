@@ -24,5 +24,23 @@
   min-height: 550px;
   height: 90%;
   width: 100%;
-  background-color: #eee
+  background-color: #eee;
 }
+.app > main > nav { 
+  width: 100%; 
+  height: 2rem;
+}
+.app > main > nav > ul {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.app > main > nav > ul > li { list-style-type: none }
+.app > main > nav > ul > li.selected { background-color: #ddd }
+.app > main > nav > ul > li > a:active,
+.app > main > nav > ul > li > a:focus,
+.app > main > nav > ul > li > a:link,
+.app > main > nav > ul > li > a:visited { color: #888; }
+.app > main > nav > ul > li > a:hover { color: #555; }

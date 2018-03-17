@@ -5,7 +5,8 @@ const token = Math.random().toString(36).substr(-8)
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Authorization': token,
+  'Content-type': 'application/json'
 }
 
 export const getAll = () =>

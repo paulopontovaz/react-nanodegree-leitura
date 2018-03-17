@@ -1,18 +1,35 @@
-// import { combineReducers } from 'redux'
-import { FETCH_CATEGORIES } from '../actions/categories'
+import { combineReducers } from 'redux'
+import { 
+  FETCH_CATEGORIES,
+  CATEGORIES_ARE_LOADING,
+  CATEGORIES_HAVE_ERROR
+} from '../actions/categories'
 
-function reducer (state, action) {
-  const { categories } = action
+export function categoriesHaveError(state = false, action) {
+    switch (action.type) {
+        case CATEGORIES_HAVE_ERROR:
+            return action.hasError;
+        default:
+            return state;
+    }
+}
 
-  switch (action.type) {
-    case FETCH_CATEGORIES:
-      return {
-        ...state,
-        categories
-      }
-    default:
-      return state
-  }
+export function categoriesAreLoading(state = false, action) {
+    switch (action.type) {
+        case CATEGORIES_ARE_LOADING:
+            return action.isLoading;
+        default:
+            return state;
+    }
+}
+
+export function categories(state = [], action) {
+    switch (action.type) {
+        case FETCH_CATEGORIES:
+            return action.categories;
+        default:
+            return state;
+    }
 }
 
 // function comments (state = {}, action) {
@@ -29,9 +46,8 @@ function reducer (state, action) {
 //   }
 // }
 
-export default reducer
-
-// combineReducers({
-//   comments,
-//   posts,
-// })
+export default combineReducers({
+  categories,
+  categoriesAreLoading,
+  categoriesHaveError
+})
