@@ -1,40 +1,28 @@
-import { getAll } from '../utils/CategoriesAPI'
+import * as CategoriesAPI from '../utils/CategoriesAPI'
+import * as ACTION_TYPES from './actionTypes'
 
-export const FETCH_CATEGORIES = 'FETCH_CATEGORIES'
-export const CATEGORIES_ARE_LOADING = 'CATEGORIES_ARE_LOADING'
-export const CATEGORIES_HAVE_ERROR = 'CATEGORIES_HAVE_ERROR'
-
-export function categoriesAreLoading (bool) {//action creator
+export function categoriesAreLoading (bool) {
   return {
-    type: CATEGORIES_ARE_LOADING,
+    type: ACTION_TYPES.CATEGORIES_ARE_LOADING,
     isLoading: bool
   }
 }
 
-export function categoriesHaveError (bool) {//action creator
+export function categoriesHaveError (bool) {
   return {
-    type: CATEGORIES_HAVE_ERROR,
+    type: ACTION_TYPES.CATEGORIES_HAVE_ERROR,
     hasError: bool
   }
 }
 
-export function fetchCategories (categories) {//action creator
+export function fetchCategories (categories) {
   return {
-    type: FETCH_CATEGORIES,
+    type: ACTION_TYPES.GET_ALL_CATEGORIES,
     categories
   }
 }
 
 export function getAllCategories () {
-  return dispatch => {
-  	dispatch(categoriesAreLoading(true))
-
-  	getAll()
-      .then(response => {
-      	dispatch(categoriesAreLoading(false))
-      	return response
-      })
-      .then(categories => dispatch(fetchCategories(categories)))
-      .catch(() => dispatch(categoriesHaveError(true)))
-  }
- }
+  return dispatch => CategoriesAPI.getAll()
+    .then(categories => dispatch(fetchCategories(categories)))
+}

@@ -44,3 +44,10 @@
 .app > main > nav > ul > li > a:link,
 .app > main > nav > ul > li > a:visited { color: #888; }
 .app > main > nav > ul > li > a:hover { color: #555; }
+.app > main > div.main-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}

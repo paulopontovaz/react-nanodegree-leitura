@@ -6,7 +6,15 @@ class Category extends Component {
   render() {
     const { categoryName } = this.props
     return (
-      <span>{categoryName}</span>
+      <div className="category-container">
+      	<h2>{categoryName}</h2>
+      	<form>
+      		<textarea>
+      			
+      		</textarea>
+      		<div className="form-footer"></div>
+      	</form>
+      </div>
     )    
   }
 }

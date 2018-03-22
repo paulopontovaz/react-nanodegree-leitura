@@ -41,13 +41,16 @@ class App extends Component {
               </ul>            
             </nav>          
             
-            {categories.map((category) => (
+            <div className="main-container">
+              {categories.map((category) => (
               <Route exact path={`/${category.path}`}
                       key={category.name}
                       render={() => (
                         <Category categoryName={category.name.toUpperCase()} />
                   )} />
-            ))}
+              ))}
+            </div>
+            
           </main>
         </BrowserRouter>        
 
