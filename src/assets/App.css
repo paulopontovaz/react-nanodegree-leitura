@@ -1,3 +1,4 @@
+.app * { transition: all 0.2s ease-in-out; }
 .app {
   width: 100%;
   height: 100%;
@@ -9,26 +10,27 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-color: #ddd;
+  background-color: #464BE2;
+  color: #FBF966;
 }
 .app > footer {
   height: 30px;
   justify-content: center;
 }
-.app > header.title h3 {
-  margin-left: 1rem;
-  color: #888;
+.app > header.title { 
+  background-color: #464BE2; ]
+  color: #FBF966;
 }
-
+.app > header.title h3 { margin-left: 1rem; }
 .app > main {
   min-height: 550px;
-  height: 90%;
   width: 100%;
-  background-color: #eee;
+  background-color: #668FFB;
 }
 .app > main > nav { 
   width: 100%; 
-  height: 2rem;
+  height: 3rem;
+  margin-bottom: 1rem;
 }
 .app > main > nav > ul {
   width: 100%;
@@ -37,13 +39,21 @@
   justify-content: space-around;
   align-items: center;
 }
-.app > main > nav > ul > li { list-style-type: none }
-.app > main > nav > ul > li.selected { background-color: #ddd }
-.app > main > nav > ul > li > a:active,
-.app > main > nav > ul > li > a:focus,
-.app > main > nav > ul > li > a:link,
-.app > main > nav > ul > li > a:visited { color: #888; }
-.app > main > nav > ul > li > a:hover { color: #555; }
+.app > main > nav > ul > li { 
+  list-style-type: none; 
+  flex: 1 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.app > main > nav > ul > li.selected-category { background-color: #464BE2; }
+.app > main > nav > ul > li.selected-category > a,
+.app > main > nav > ul > li.selected-category > a:active,
+.app > main > nav > ul > li.selected-category > a:focus,
+.app > main > nav > ul > li.selected-category > a:link,
+.app > main > nav > ul > li.selected-category > a:visited { color: #FBF966; }
+.app > main > nav > ul > li > a:hover { color: #FBF966; }
 .app > main > div.main-container {
   display: flex;
   width: 100%;

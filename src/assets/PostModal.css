@@ -1,0 +1,11 @@
+div.post-modal-container {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+}
+
+div.post-modal-container > footer {
+	display: flex;
+	justify-content: flex-end;
+	margin-top: 1rem;
+}

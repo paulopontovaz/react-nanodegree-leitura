@@ -3,23 +3,30 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
 import { getAllCategories } from '../actions/categories'
+import Loading from 'react-loading'
 import Category from './Category'
 
 class App extends Component {
   state = {
-    selectedCategory: null
+    selectedCategory: null,//used for applying some CSS classes
   }
   
   componentDidMount() {
     this.props.loadCategories()
   }
 
-  selectCategory = (category) => {
-    this.setState({ selectedCategory: category.name })
-  }
+  selectCategory = (category) => this.setState(() => ({ selectedCategory: category }))
 
   render() {
-    const categories = [{name:'home', path:''}].concat(this.props.categories)
+    let { selectedCategory } = this.state
+    let categories = []
+
+    if (this.props.categories) {
+      categories = [{name:'home', path:''}].concat(this.props.categories)
+
+      if (selectedCategory === null)
+        selectedCategory = categories[0]
+    }    
 
     return (
       <div className="app">
@@ -31,26 +38,28 @@ class App extends Component {
           <main>
             <nav>
               <ul>
-                {categories.map((category) => (
-                  <li key={category.name}>
-                    <Link to={`/${category.path}`}>
-                      {category.name.toUpperCase()}
-                    </Link>
-                  </li>               
+                {categories && categories.map((category) => (                  
+                  <li key={category.name}
+                      onClick={() => this.selectCategory(category)}
+                      className={ selectedCategory && 
+                        selectedCategory.name === category.name ? 'selected-category' : '' }>
+                      <Link  to={`/${category.path}`}>
+                        {category.name.toUpperCase()}
+                      </Link>
+                  </li>
                 ))}
               </ul>            
             </nav>          
             
             <div className="main-container">
-              {categories.map((category) => (
+              {categories && categories.map((category) => (
               <Route exact path={`/${category.path}`}
                       key={category.name}
                       render={() => (
-                        <Category categoryName={category.name.toUpperCase()} />
+                        <Category category={category} />
                   )} />
               ))}
-            </div>
-            
+            </div>            
           </main>
         </BrowserRouter>        
 
@@ -62,11 +71,9 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({ 
-  categories: state.categories
-})
+const mapStateToProps = state => ({ categories: state.categories })
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps = dispatch => ({
   loadCategories: () => dispatch(getAllCategories())
 })
 

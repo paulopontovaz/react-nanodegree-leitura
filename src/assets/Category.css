@@ -1,17 +1,11 @@
 div.category-container {
-	width: 600px;
-	height: 100%;
-	padding: 1rem;
-	background-color: white;
-}
-div.category-container > form {
+    width: 600px;
+    height: 100%;
     padding: 1rem;
-    margin-top: 1rem;
-    box-shadow: 3px 3px 2px #aaa;
-    border-radius: 0.2rem
+    background-color: #FEFEF3;
 }
-div.category-container > form > textarea {
-    flex: 1;
-    border-radius: 0.2rem;
-    height: 6rem;
+div.category-container > header.category-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }

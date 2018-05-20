@@ -2521,6 +2521,10 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exenv@^1.2.0:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+
 expand-brackets@^0.1.4:
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/expand-brackets/-/expand-brackets-0.1.5.tgz#df07284e342a807cd733ac5af72411e581d1177b"
@@ -4417,6 +4421,10 @@ map-visit@^1.0.0:
   dependencies:
     object-visit "^1.0.0"
 
+material-design-icons@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/material-design-icons/-/material-design-icons-3.0.1.tgz#9a71c48747218ebca51e51a66da682038cdcb7bf"
+
 material-ui@^0.20.0:
   version "0.20.0"
   resolved "https://registry.yarnpkg.com/material-ui/-/material-ui-0.20.0.tgz#85411bb59c916c9c7703f29dcffc44e3a67d5111"
@@ -5651,6 +5659,18 @@ react-event-listener@^0.5.1:
     babel-runtime "^6.26.0"
     fbjs "^0.8.16"
     prop-types "^15.6.0"
+    warning "^3.0.0"
+
+react-loading@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/react-loading/-/react-loading-1.0.4.tgz#9bd8c78313f61796551f47e6530d8eae1b593e09"
+
+react-modal@^3.3.2:
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/react-modal/-/react-modal-3.3.2.tgz#b13da9490653a7c76bc0e9600323eb1079c620e7"
+  dependencies:
+    exenv "^1.2.0"
+    prop-types "^15.5.10"
     warning "^3.0.0"
 
 react-redux@^5.0.7:

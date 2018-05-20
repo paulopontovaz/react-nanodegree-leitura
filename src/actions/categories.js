@@ -1,28 +1,14 @@
-import * as CategoriesAPI from '../utils/CategoriesAPI'
-import * as ACTION_TYPES from './actionTypes'
+import * as CategoriesAPI from '../utils/API/Categories'
+import * as ACTION_TYPES from '../utils/constants/ActionTypes'
 
-export function categoriesAreLoading (bool) {
-  return {
-    type: ACTION_TYPES.CATEGORIES_ARE_LOADING,
-    isLoading: bool
-  }
-}
-
-export function categoriesHaveError (bool) {
-  return {
-    type: ACTION_TYPES.CATEGORIES_HAVE_ERROR,
-    hasError: bool
-  }
-}
-
-export function fetchCategories (categories) {
-  return {
-    type: ACTION_TYPES.GET_ALL_CATEGORIES,
-    categories
-  }
+function fetchCategories (categories) {
+	return {
+		type: ACTION_TYPES.GET_ALL_CATEGORIES,
+		categories
+	}
 }
 
 export function getAllCategories () {
-  return dispatch => CategoriesAPI.getAll()
-    .then(categories => dispatch(fetchCategories(categories)))
+	return dispatch => CategoriesAPI.getAllCategories()
+		.then(categories => dispatch(fetchCategories(categories)))
 }
