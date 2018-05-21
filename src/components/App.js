@@ -2,11 +2,12 @@ import '../assets/App.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
-import { getAllCategories } from '../actions/categories'
 import Loading from 'react-loading'
+import {Tabs, Tab} from 'material-ui/Tabs'
+import { getAllCategories } from '../actions/categories'
 import Category from './Category'
 
-class App extends Component {
+class App extends Component {  
   state = {
     selectedCategory: null,//used for applying some CSS classes
   }
@@ -36,14 +37,15 @@ class App extends Component {
         
         <BrowserRouter>
           <main>
+            
+
             <nav>
               <ul>
                 {categories && categories.map((category) => (                  
-                  <li key={category.name}
-                      onClick={() => this.selectCategory(category)}
+                  <li key={category.name}                      
                       className={ selectedCategory && 
                         selectedCategory.name === category.name ? 'selected-category' : '' }>
-                      <Link  to={`/${category.path}`}>
+                      <Link to={`/${category.path}`} >
                         {category.name.toUpperCase()}
                       </Link>
                   </li>
@@ -59,7 +61,7 @@ class App extends Component {
                         <Category category={category} />
                   )} />
               ))}
-            </div>            
+            </div>                        
           </main>
         </BrowserRouter>        
 

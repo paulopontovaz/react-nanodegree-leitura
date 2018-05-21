@@ -1,51 +1,44 @@
 import '../assets/Modal.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { addPost, updatePost } from '../actions/posts'
+import { addComment, updateComment } from '../actions/comments'
 import FlatButton from 'material-ui/FlatButton'
 import TextField from 'material-ui/TextField'
 import SelectField from 'material-ui/SelectField'
 import MenuItem from 'material-ui/MenuItem'
 
-class PostModal extends Component {
+class CommentModal extends Component {
   constructor (props) {
     super(props)
     this.state = { 
-      title: '', 
       author: '', 
       body: '', 
-      category: ''
+      parentId: this.props.postId
     }
 
-    if(this.props.post)
-      this.state = {...this.props.post}
+    if(this.props.comment)
+      this.state = {...this.props.comment}
   }
 
-  add (post) {
-    if (post.title && post.author && post.body && post.category) {
+  add (comment) {
+    if (comment.author && comment.body) {
       let promise
 
-      if (post.id)
-        promise = this.props.updatePost(post)
+      if (comment.id)
+        promise = this.props.updateComment(comment)
       else
-        promise = this.props.addPost(post)
+        promise = this.props.addComment(comment)
 
-      promise.then(() => this.props.closeModal())
+      promise.then(this.props.closeModal)
     }
   }
 
   render() {
     const { closeModal } = this.props
-    const { title, author, body, category, id } = this.state
+    const { author, body, id } = this.state
 
     return (
           <div className="modal-container">
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Title"
-              value={title} 
-              onChange={event => this.setState({title: event.target.value})}
-              required />
             <TextField 
               fullWidth={true}
               floatingLabelText="Author"
@@ -61,15 +54,6 @@ class PostModal extends Component {
               value={body} 
               onChange={event => this.setState({body: event.target.value})}
               required />
-            <SelectField
-              fullWidth={true}
-              floatingLabelText="Category"
-              value={category}
-              onChange={(event, index, value) => this.setState({category: value})}>
-                <MenuItem value='redux' primaryText="Redux" />
-                <MenuItem value='react' primaryText="React" />
-                <MenuItem value='udacity' primaryText="Udacity" />
-            </SelectField>
             <footer>
               <FlatButton label="CANCEL" onClick={closeModal} />
               <FlatButton label={id ? "UPDATE" : "CREATE"} onClick={() => this.add(this.state)} primary={true} />
@@ -80,11 +64,11 @@ class PostModal extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-    addPost: post => dispatch(addPost(post)),
-    updatePost: post => dispatch(updatePost(post)),
+    addComment: comment => dispatch(addComment(comment)),
+    updateComment: comment => dispatch(updateComment(comment)),
 })
 
 export default connect(
     null,
     mapDispatchToProps
-)(PostModal)
+)(CommentModal)

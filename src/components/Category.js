@@ -9,12 +9,12 @@ import Dialog from 'material-ui/Dialog'
 
 class Category extends Component {
   state = {
-    postModalOpen: false,
+    showPostModal: false,
     modalPost: null
   }
 
-  openPostModal = (post = null) => this.setState(() => ({ postModalOpen: true, modalPost: post }))
-  closePostModal = () => this.setState(() => ({ postModalOpen: false, modalPost: null }))
+  openPostModal = (post = null) => this.setState(() => ({ showPostModal: true, modalPost: post }))
+  closePostModal = () => this.setState(() => ({ showPostModal: false, modalPost: null }))
 
   componentDidMount() {
     this.props.loadPosts(this.props.category.path)
@@ -22,13 +22,16 @@ class Category extends Component {
 
   render() {
     const { category, posts } = this.props
-    const { postModalOpen, modalPost } = this.state
+    const { showPostModal, modalPost } = this.state
 
     return (
       <div className="category-container">
         <header className="category-header">
           <h2>{category.name.toUpperCase()}</h2>
-          <RaisedButton label="POST" onClick={() => this.openPostModal()} />
+          <RaisedButton 
+            label="POST" 
+            primary={true} 
+            onClick={() => this.openPostModal()} />
         </header>
       	<div className="post-list">
           {posts && posts.map(post => (
@@ -39,16 +42,18 @@ class Category extends Component {
 
         <Dialog
           title="Post"
-          open={postModalOpen}
+          open={showPostModal}
           autoScrollBodyContent={true}>
-            <PostModal post={modalPost} closeModal={this.closePostModal} />
+            <PostModal 
+              post={modalPost || (category && category.path ? {category: category.name} : null)} 
+              closeModal={this.closePostModal} />
         </Dialog>
       </div>
     )    
   }
 }
 
-const mapStateToProps = state => ({ posts: state.posts })
+const mapStateToProps = ({ posts }) => ({ posts })
 
 const mapDispatchToProps = dispatch => ({
   loadPosts: categoryPath => dispatch(getPosts(categoryPath))

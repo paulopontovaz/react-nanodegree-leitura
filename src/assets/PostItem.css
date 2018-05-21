@@ -1,6 +1,7 @@
 div.post-item {
     margin: 1rem 0;
     padding-left: 0.5rem;
+    padding-right: 0.5rem;
     border: 1px solid #DDD;
     border-radius: 5px;
     color: #080819;
@@ -44,4 +45,14 @@ div.post-item-body {
     padding: 1rem;
     margin: 1rem 0.5rem 1rem 0;
     border-radius: 4px;
+}
+div.post-item div.comment-list {
+    border-top: 1px solid lightgray;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+div.post-item div.comment-list > header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

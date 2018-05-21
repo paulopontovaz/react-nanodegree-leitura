@@ -1,6 +1,6 @@
 import * as ApiData from './ApiData'
 
-export const getAllPosts = () => 
+export const getAll = () => 
 	fetch(`${ApiData.url}/posts`, { headers: ApiData.headers })
 	    .then(res => res.json())
 
@@ -27,3 +27,10 @@ export const deletePost = id =>
 		method: 'DELETE',
 		headers: ApiData.headers,
 	})
+	
+export const changeVote = (id, option) =>
+	fetch(`${ApiData.url}/posts/${id}`, {
+		method: 'POST',
+		headers: ApiData.headers,
+		body: JSON.stringify({ option })
+	}).then(res => res.json())

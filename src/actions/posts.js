@@ -1,5 +1,6 @@
 import * as PostsAPI from '../utils/API/Posts'
 import * as ACTION_TYPES from '../utils/constants/ActionTypes'
+import uuid from 'uuid'
 
 function fetchPosts (posts) {
   return {
@@ -22,13 +23,20 @@ function insertPost (post) {
   }
 }
 
+function editPost (post) {
+  return {
+    type: ACTION_TYPES.UPDATE_POST,
+    post
+  }
+}
+
 export function getPosts (categoryPath) {
   return dispatch => {
     if (categoryPath)
       return PostsAPI.getPostsByCategory(categoryPath)
         .then(posts => dispatch(fetchPosts(posts)))
     else
-      return PostsAPI.getAllPosts()
+      return PostsAPI.getAll()
         .then(posts => dispatch(fetchPosts(posts)))
   }
 }
@@ -40,14 +48,31 @@ export function deletePost (postId) {
 }
 
 export function addPost (post) {
-  const currentTime = Date.now()
   const newPost = {
     ...post, 
-    timestamp: currentTime,
-    id: currentTime.toString()
+    timestamp: Date.now(),
+    id: uuid().replace(new RegExp('-', 'g'),'')
   }
 
   return dispatch => 
-    PostsAPI.addPost(post)
-      .then(data => dispatch(insertPost(data)))
+    PostsAPI.addPost(newPost)
+      .then(data => {
+        return dispatch(insertPost(data))
+      })
+}
+
+export function updatePost (post) {
+  return dispatch => 
+    PostsAPI.updatePost(post)
+      .then(data => {
+        return dispatch(editPost(data))
+      })
+}
+
+export function changeVotePost (postId, option) {
+  return dispatch => 
+    PostsAPI.changeVote(postId, option)
+      .then(data => {
+        return dispatch(editPost(data))
+      })  
 }

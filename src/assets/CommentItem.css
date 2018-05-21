@@ -1,0 +1,18 @@
+div.comment-item {
+	padding: 0.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid lightgrey;
+    border-radius: 4px;
+}
+div.comment-item div.comment-item-header,
+div.comment-item div.comment-item-footer {
+	display: flex;
+    justify-content: space-between;
+}
+div.comment-item div.comment-item-body {
+    padding: 1rem;
+    background-color: #eee;
+    margin-top: 1rem;
+    border-radius: 4px;
+}

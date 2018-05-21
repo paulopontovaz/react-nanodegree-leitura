@@ -23,3 +23,10 @@ export const deleteComment = id =>
 		method: 'DELETE',
 		headers: ApiData.headers,
 	})
+	
+export const changeVote = (id, option) =>
+	fetch(`${ApiData.url}/comments/${id}`, {
+		method: 'POST',
+		headers: ApiData.headers,
+		body: JSON.stringify({ option })
+	}).then(res => res.json());
