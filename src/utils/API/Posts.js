@@ -4,6 +4,10 @@ export const getAll = () =>
 	fetch(`${ApiData.url}/posts`, { headers: ApiData.headers })
 	    .then(res => res.json())
 
+export const getPostById = id => 
+	fetch(`${ApiData.url}/posts/${id}`, { headers: ApiData.headers })
+	    .then(res => res.json())
+
 export const getPostsByCategory = categoryPath => 
 	fetch(`${ApiData.url}/${categoryPath}/posts`, { headers: ApiData.headers })
 	    .then(res => res.json())

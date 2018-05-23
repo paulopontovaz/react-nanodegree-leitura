@@ -1,11 +1,10 @@
 div.post-item {
     margin: 1rem 0;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    border: 1px solid #DDD;
+    padding: 0 0.5rem;
     border-radius: 5px;
     color: #080819;
 }
+div.post-item:not(.details) { border: 1px solid #DDD; }
 div.post-item > div.category {
     margin-bottom: 0.5rem;
     margin-right: 0.5rem;
@@ -15,44 +14,37 @@ div.post-item > div.category {
     justify-content: center;
     border-bottom: 1px solid lightgray;
 }
-div.post-item-header > div.title {
+header.post-item-header > div.title {
 	display: flex;
     justify-content: space-between;
 }
-div.post-item-header > div.title > h4 {     
+header.post-item-header > div.title > h4 {     
 	display: flex;
     align-items: center; 
     font-weight: 500;
     font-size: larger;
 }
-div.post-item-header > div.author {
+header.post-item-header > div.author {
 	font-size: 0.9rem;
     margin-top: 0.2rem;
 }
-div.post-item-header > div.author span.author-name { font-weight: 500; }
-div.post-item-header span.author-name { margin-right: 0.3rem; }
-div.post-item-footer {
+header.post-item-header > div.author span.author-name { font-weight: 500; }
+header.post-item-header span.author-name { margin-right: 0.3rem; }
+footer.post-item-footer {
 	display: flex;
     justify-content: space-between;
     font-size: 0.9rem;
 }
-div.post-item-footer > div {
+footer.post-item-footer > div {
 	display: flex;
     align-items: center;
+}
+footer.post-item-footer > div.comments span {
+    margin-right: 0.5rem;
 }
 div.post-item-body {
     background-color: #eee;
     padding: 1rem;
     margin: 1rem 0.5rem 1rem 0;
     border-radius: 4px;
-}
-div.post-item div.comment-list {
-    border-top: 1px solid lightgray;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-}
-div.post-item div.comment-list > header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }

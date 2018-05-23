@@ -2,10 +2,10 @@ import '../assets/Modal.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addComment, updateComment } from '../actions/comments'
-import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 
 class CommentModal extends Component {
   constructor (props) {
@@ -13,7 +13,7 @@ class CommentModal extends Component {
     this.state = { 
       author: '', 
       body: '', 
-      parentId: this.props.postId
+      parentId: this.props.comment.parentId
     }
 
     if(this.props.comment)
@@ -38,27 +38,33 @@ class CommentModal extends Component {
     const { author, body, id } = this.state
 
     return (
-          <div className="modal-container">
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Author"
-              value={author} 
-              onChange={event => this.setState({author: event.target.value})}
-              required />
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Text"
-              hintText="What do you want to say?"
-              multiLine={true}
-              rows={3}
-              value={body} 
-              onChange={event => this.setState({body: event.target.value})}
-              required />
-            <footer>
-              <FlatButton label="CANCEL" onClick={closeModal} />
-              <FlatButton label={id ? "UPDATE" : "CREATE"} onClick={() => this.add(this.state)} primary={true} />
-            </footer>  
-          </div>
+      <div className="modal-container">
+        <DialogContent>
+          <TextField 
+            fullWidth={true}
+            label="Author"
+            value={author} 
+            onChange={event => this.setState({author: event.target.value})}
+            required />
+          <TextField 
+            fullWidth={true}
+            label="Text"
+            multiline
+            rows={3}
+            value={body} 
+            onChange={event => this.setState({body: event.target.value})}
+            required />
+        </DialogContent>
+        <DialogActions>
+          <Button 
+            variant="flat"
+            onClick={closeModal}>CANCEL</Button>
+          <Button 
+            variant="flat"
+            onClick={() => this.add(this.state)} 
+            color="primary">{id ? "UPDATE" : "CREATE"}</Button>
+        </DialogActions>
+      </div>
     )    
   }
 }

@@ -2,10 +2,9 @@ import '../assets/App.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
-import Loading from 'react-loading'
-import {Tabs, Tab} from 'material-ui/Tabs'
 import { getAllCategories } from '../actions/categories'
 import Category from './Category'
+import PostDetails from './PostDetails'
 
 class App extends Component {  
   state = {
@@ -37,8 +36,6 @@ class App extends Component {
         
         <BrowserRouter>
           <main>
-            
-
             <nav>
               <ul>
                 {categories && categories.map((category) => (                  
@@ -50,18 +47,19 @@ class App extends Component {
                       </Link>
                   </li>
                 ))}
-              </ul>            
+              </ul>
             </nav>          
             
             <div className="main-container">
               {categories && categories.map((category) => (
-              <Route exact path={`/${category.path}`}
-                      key={category.name}
-                      render={() => (
-                        <Category category={category} />
-                  )} />
+                <Route exact path={`/${category.path}`}
+                        key={category.name}
+                        render={() => (
+                          <Category category={category} />
+                    )} />
               ))}
-            </div>                        
+              <Route exact path='/posts/:postId' component={PostDetails} />
+            </div>
           </main>
         </BrowserRouter>        
 

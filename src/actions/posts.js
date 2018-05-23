@@ -9,6 +9,13 @@ function fetchPosts (posts) {
   }
 }
 
+function fetchPost (post) {
+  return {
+    type: ACTION_TYPES.GET_POST,
+    post
+  }
+}
+
 function removePost (postId) {
   return {
     type: ACTION_TYPES.DELETE_POST,
@@ -28,6 +35,12 @@ function editPost (post) {
     type: ACTION_TYPES.UPDATE_POST,
     post
   }
+}
+
+export function getPostById (postId) {
+  return dispatch => 
+    PostsAPI.getPostById(postId)
+      .then(post => dispatch(fetchPost(post)))
 }
 
 export function getPosts (categoryPath) {

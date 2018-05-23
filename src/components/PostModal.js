@@ -2,10 +2,12 @@ import '../assets/Modal.css'
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { addPost, updatePost } from '../actions/posts'
-import FlatButton from 'material-ui/FlatButton'
-import TextField from 'material-ui/TextField'
-import SelectField from 'material-ui/SelectField'
-import MenuItem from 'material-ui/MenuItem'
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import DialogContent from '@material-ui/core/DialogContent'
+import DialogActions from '@material-ui/core/DialogActions'
 
 class PostModal extends Component {
   constructor (props) {
@@ -39,42 +41,53 @@ class PostModal extends Component {
     const { title, author, body, category, id } = this.state
 
     return (
-          <div className="modal-container">
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Title"
-              value={title} 
-              onChange={event => this.setState({title: event.target.value})}
-              required />
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Author"
-              value={author} 
-              onChange={event => this.setState({author: event.target.value})}
-              required />
-            <TextField 
-              fullWidth={true}
-              floatingLabelText="Text"
-              hintText="What do you want to say?"
-              multiLine={true}
-              rows={3}
-              value={body} 
-              onChange={event => this.setState({body: event.target.value})}
-              required />
-            <SelectField
-              fullWidth={true}
-              floatingLabelText="Category"
-              value={category}
-              onChange={(event, index, value) => this.setState({category: value})}>
-                <MenuItem value='redux' primaryText="Redux" />
-                <MenuItem value='react' primaryText="React" />
-                <MenuItem value='udacity' primaryText="Udacity" />
-            </SelectField>
-            <footer>
-              <FlatButton label="CANCEL" onClick={closeModal} />
-              <FlatButton label={id ? "UPDATE" : "CREATE"} onClick={() => this.add(this.state)} primary={true} />
-            </footer>  
-          </div>
+      <div className="modal-container">
+        <DialogContent>
+          <TextField 
+            className="modal-form-field"
+            fullWidth={true}
+            label="Title"
+            value={title} 
+            onChange={event => this.setState({title: event.target.value})}
+            required />
+          <TextField 
+            className="modal-form-field"
+            fullWidth={true}
+            label="Author"
+            value={author} 
+            onChange={event => this.setState({author: event.target.value})}
+            required />
+          <TextField 
+            className="modal-form-field"
+            fullWidth={true}
+            label="Text"
+            multiline
+            rows={3}
+            value={body} 
+            onChange={event => this.setState({body: event.target.value})}
+            required />
+          <Select
+            className="modal-form-field"
+            fullWidth={true}
+            label="Category"
+            value={category}
+            onChange={(event) => this.setState({category: event.target.value})}>
+              <MenuItem value='redux'>Redux</MenuItem>
+              <MenuItem value='react'>React</MenuItem>
+              <MenuItem value='udacity'>Udacity</MenuItem>
+          </Select>
+        </DialogContent>
+        <DialogActions>
+          <Button 
+              variant="flat"
+              onClick={closeModal}>CANCEL</Button>
+          <Button 
+            variant="flat"
+            onClick={() => this.add(this.state)} 
+            color="primary">{id ? "UPDATE" : "CREATE"}</Button>
+        </DialogActions>
+      </div>
+      
     )    
   }
 }

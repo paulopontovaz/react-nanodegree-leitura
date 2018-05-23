@@ -1,10 +1,10 @@
-div.category-container {
+div.view-container {
     width: 600px;
     height: 100%;
     padding: 1rem;
     background-color: #FEFEF3;
 }
-div.category-container > header.category-header {
+div.view-container > header.view-header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;

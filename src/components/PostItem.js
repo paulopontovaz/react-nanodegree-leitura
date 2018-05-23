@@ -1,126 +1,73 @@
 import '../assets/PostItem.css'
 import React, { Component } from 'react'
+import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
-import IconButton from 'material-ui/IconButton'
-import RaisedButton from 'material-ui/RaisedButton'
+import IconButton from '@material-ui/core/IconButton'
+import Icon from '@material-ui/core/Icon'
+import Button from '@material-ui/core/Button'
 import { deletePost, changeVotePost } from '../actions/posts'
-import { getCommentsByPostId } from '../actions/comments'
-import CommentModal from './CommentModal'
-import CommentItem from './CommentItem'
-import Dialog from 'material-ui/Dialog'
+import Tooltip from '@material-ui/core/Tooltip'
 
 class PostItem extends Component {
-    state = {
-        showComments: false,
-        showCommentModal: false,
-        modalComment: null,
-    }
-
-    componentDidMount () {
-        this.props.getCommentsByPostId(this.props.post.id)
-    }
-
+    
     changeVote (option) {
         this.props.changeVotePost(this.props.post.id, option)
     }
 
-    openCommentModal = (comment = null) => this.setState(() => ({ showCommentModal: true, modalComment: comment }))
-    closeCommentModal = () => this.setState(() => ({ showCommentModal: false, modalComment: null }))
-
     render() {
-        const { post, isHome, editFunction, deletePost, comments } = this.props
-        const { showComments, showCommentModal, modalComment } = this.state
+        const { post, isHome } = this.props
 
         return (
-        	<div className="post-item">
+            <div className="post-item">
                 {isHome && (
                     <div className="category"><span>{post.category.toUpperCase()}</span></div>
                 )}            
-        		<div className="post-item-header">
-        			<div className="title">
+                <header className="post-item-header">
+                    <div className="title">
                         <h4>{post.title}</h4>
-                        <div>
-                            <IconButton iconClassName="material-icons" 
-                                className="icon-button" 
-                                tooltip="Edit"
-                                onClick={() => editFunction(post)}>edit</IconButton>
-                            <IconButton iconClassName="material-icons" 
-                                className="icon-button" 
-                                tooltip="Delete"
-                                onClick={() => deletePost(post.id)}>delete</IconButton>
-                        </div>                        
+                        <Button variant="flat">
+                            <Link to={`/posts/${post.id}`}>DETAILS</Link>
+                        </Button>
                     </div>
-        			<div className="author">
-        				<span>
+                    <div className="author">
+                        <span>
                             By <span className="author-name">{post.author}</span> 
                             ({new Date(post.timestamp).toLocaleString()})
                         </span>
-        			</div>    			
-        		</div>
-        		<div className="post-item-body">{post.body}</div>
-        		<div className="post-item-footer">
-        			<div className="votes">
-        				<span>Vote Score: {post.voteScore}</span>
-                        <IconButton iconClassName="material-icons" 
-                                    className="icon-button" 
-                                    tooltip="Upvote"
-                                    onClick={() => this.changeVote("upVote")}>thumb_up</IconButton>   
-                        <IconButton iconClassName="material-icons" 
-                                    className="icon-button" 
-                                    tooltip="Downvote"
-                                    onClick={() => this.changeVote("downVote")}>thumb_down</IconButton>                         				
-        			</div>
-        			<div className="comments">
-                        <span>{post.commentCount} Comments</span>
-                        <IconButton iconClassName="material-icons" 
-                                    className="icon-button" 
-                                    tooltip="Comment"
-                                    onClick={() => this.setState({ showComments: !showComments })}>
-                                        comment</IconButton>                    
-                    </div>
-        		</div>
-                {showComments && (
-                    <div className="comment-list">
-                        <header>
-                            <h4>Comment List</h4>
-                            <RaisedButton 
-                                label="ADD COMMENT" 
-                                onClick={() => this.openCommentModal()} 
-                                primary={true} />
-                        </header>                        
-                        {post.comments && post.comments.map(comment => (
-                            <CommentItem 
-                                key={comment.id} 
-                                comment={comment} 
-                                editFunction={this.openCommentModal}
-                                closeModal={this.closeCommentModal} />
-                        ))}
-                    </div>
-                )}
-                
-                <Dialog
-                  title="Comment"
-                  open={showCommentModal}
-                  autoScrollBodyContent={true}>
-                    <CommentModal 
-                      comment={modalComment}
-                      closeModal={this.closeCommentModal}
-                      postId={post.id} />
-                </Dialog>
-        	</div>
+                    </div>              
+                </header>
+                <footer className="post-item-footer">
+                    <div className="votes">
+                        <span>Vote Score: {post.voteScore}</span>
+                        <Tooltip title="Upvote">
+                            <IconButton className="icon-button"
+                                        onClick={() => this.changeVote("upVote")}>
+                                <Icon>thumb_up</Icon>
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Downvote">
+                            <IconButton className="icon-button"
+                                        onClick={() => this.changeVote("downVote")}>
+                                <Icon>thumb_down</Icon>
+                            </IconButton>
+                        </Tooltip>
+                    </div>                    
+                    <div className="comments">
+                        <span>{post.commentCount}</span>
+                        <Tooltip title="Comments"><Icon>comment</Icon></Tooltip>
+                    </div>                    
+                </footer>
+            </div>
         )
     }
 }
 
-const mapStateToProps = ({ comments }) => ({ comments })
-
 const mapDispatchToProps = dispatch => ({
     deletePost: postId => dispatch(deletePost(postId)),
-    changeVotePost: (post, option) => dispatch(changeVotePost(post, option)),
-    getCommentsByPostId: postId => dispatch(getCommentsByPostId(postId))
+    changeVotePost: (post, option) => dispatch(changeVotePost(post, option))
 })
 
 export default connect(
-    mapStateToProps,
+    null,
     mapDispatchToProps
 )(PostItem)

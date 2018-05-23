@@ -8,3 +8,6 @@ div.modal-container > footer {
 	justify-content: flex-end;
 	margin-top: 1rem;
 }
+div.modal-form-field {
+	margin: 1rem 0;
+}
