@@ -31,6 +31,18 @@ function editComment (comment) {
   }
 }
 
+function changeOrder (newOrder, ascending) {
+  return {
+    type: ACTION_TYPES.ORDER_COMMENTS,
+    newOrder,
+    ascending
+  }
+}
+
+export function changeCommentOrder (newOrder, ascending) {
+  return dispatch => dispatch(changeOrder(newOrder, ascending))
+}
+
 export function getCommentsByPostId (postId) {
   return dispatch => 
     CommentsAPI.getCommentsByPostId(postId)
@@ -40,10 +52,7 @@ export function getCommentsByPostId (postId) {
 export function deleteComment (commentId) {
   return dispatch => 
     CommentsAPI.deleteComment(commentId)
-      .then(comment => { 
-      		console.log(comment)
-      		return dispatch(removeComment(commentId))
-      	})
+      .then(comment => dispatch(removeComment(commentId)))
 }
 
 export function addComment (comment) {

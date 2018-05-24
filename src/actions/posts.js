@@ -37,6 +37,18 @@ function editPost (post) {
   }
 }
 
+function changeOrder (newOrder, ascending) {
+  return {
+    type: ACTION_TYPES.ORDER_POSTS,
+    newOrder,
+    ascending
+  }
+}
+
+export function changePostOrder (newOrder, ascending) {
+  return dispatch => dispatch(changeOrder(newOrder, ascending))
+}
+
 export function getPostById (postId) {
   return dispatch => 
     PostsAPI.getPostById(postId)

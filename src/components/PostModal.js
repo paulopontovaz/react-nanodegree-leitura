@@ -1,5 +1,6 @@
 import '../assets/Modal.css'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addPost, updatePost } from '../actions/posts'
 import Button from '@material-ui/core/Button'
@@ -8,6 +9,8 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
+import FormControl from '@material-ui/core/FormControl'
+import InputLabel from '@material-ui/core/InputLabel'
 
 class PostModal extends Component {
   constructor (props) {
@@ -65,17 +68,19 @@ class PostModal extends Component {
             rows={3}
             value={body} 
             onChange={event => this.setState({body: event.target.value})}
-            required />
-          <Select
-            className="modal-form-field"
-            fullWidth={true}
-            label="Category"
-            value={category}
-            onChange={(event) => this.setState({category: event.target.value})}>
-              <MenuItem value='redux'>Redux</MenuItem>
-              <MenuItem value='react'>React</MenuItem>
-              <MenuItem value='udacity'>Udacity</MenuItem>
-          </Select>
+            required />              
+          <FormControl fullWidth={true} className='modal-form-field'>
+            <InputLabel htmlFor="category-select">Category</InputLabel>
+            <Select
+              inputProps={{name: 'category', id: 'category-select'}}              
+              value={category}
+              onChange={(event) => this.setState({category: event.target.value})}>
+                <MenuItem value='redux'>Redux</MenuItem>
+                <MenuItem value='react'>React</MenuItem>
+                <MenuItem value='udacity'>Udacity</MenuItem>
+            </Select>
+          </FormControl>
+          
         </DialogContent>
         <DialogActions>
           <Button 
@@ -96,6 +101,13 @@ const mapDispatchToProps = dispatch => ({
     addPost: post => dispatch(addPost(post)),
     updatePost: post => dispatch(updatePost(post)),
 })
+
+PostModal.propTypes = {
+  addPost: PropTypes.func.isRequired,
+  updatePost: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  post: PropTypes.array.isRequired,
+}
 
 export default connect(
     null,

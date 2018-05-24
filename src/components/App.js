@@ -1,5 +1,6 @@
 import '../assets/App.css'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
 import { getAllCategories } from '../actions/categories'
@@ -69,6 +70,11 @@ class App extends Component {
       </div>
     )
   }
+}
+
+App.propTypes = {
+  categories: PropTypes.array.isRequired,
+  loadCategories: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({ categories: state.categories })

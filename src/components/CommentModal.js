@@ -1,5 +1,6 @@
 import '../assets/Modal.css'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { addComment, updateComment } from '../actions/comments'
 import Button from '@material-ui/core/Button'
@@ -73,6 +74,13 @@ const mapDispatchToProps = dispatch => ({
     addComment: comment => dispatch(addComment(comment)),
     updateComment: comment => dispatch(updateComment(comment)),
 })
+
+CommentModal.propTypes = {
+    addComment: PropTypes.func.isRequired,
+    updateComment: PropTypes.func.isRequired,
+    closeModal: PropTypes.func.isRequired,
+    comment: PropTypes.object.isRequired,
+}
 
 export default connect(
     null,

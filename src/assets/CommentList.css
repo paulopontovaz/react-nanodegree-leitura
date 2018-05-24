@@ -8,3 +8,9 @@ div.post-item.details div.comment-list header {
     justify-content: space-between;
     align-items: center;
 }
+div.post-item.details div.comment-list header h4 {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+div.post-item.details div.comment-list header h4 span { margin-left: 0.5rem; }

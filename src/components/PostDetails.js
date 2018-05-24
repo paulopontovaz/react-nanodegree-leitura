@@ -1,6 +1,7 @@
 import '../assets/PostItem.css'
 import '../assets/View.css'
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { deletePost, changeVotePost, getPostById } from '../actions/posts'
 import CommentList from './CommentList'
@@ -12,22 +13,12 @@ import DialogTitle from '@material-ui/core/DialogTitle'
 import Tooltip from '@material-ui/core/Tooltip'
 
 class PostDetails extends Component {
-    constructor (props) {
-        super(props)
-        this.state = { 
-            title: '', 
-            author: '', 
-            body: '', 
-            category: '',
-            showPostModal: false,
-            modalComment: null,
-        }
-
-        if(this.props.post)
-            this.state = {...this.state, ...this.props.post}
+    state = {
+        showPostModal: false,
+        modalComment: null,
     }
 
-    componentWillMount () {
+    componentDidMount () {
         this.props.getPostById(this.props.match.params.postId)
     }
 
@@ -92,13 +83,7 @@ class PostDetails extends Component {
                                         <Icon>thumb_down</Icon>
                                     </IconButton>
                                 </Tooltip>
-                            </div>
-                            <Tooltip title="Comments">
-                                <div className="comments">
-                                    <span>{post.commentCount}</span>
-                                    <Icon>comment</Icon>
-                                </div>
-                            </Tooltip>
+                            </div>                            
                         </footer>
 
                         <CommentList postId={post.id} />
@@ -114,13 +99,24 @@ class PostDetails extends Component {
     }
 }
 
-const mapStateToProps = ({ posts }) => ({ post: posts[0] })
+const mapStateToProps = ({ posts }, ownProps) => {
+    return { post: posts.find(p => p.id === ownProps.match.params.postId) }
+}
 
 const mapDispatchToProps = dispatch => ({
     getPostById: postId => dispatch(getPostById(postId)),
     deletePost: postId => dispatch(deletePost(postId)),
     changeVotePost: (post, option) => dispatch(changeVotePost(post, option)),
 })
+
+PostDetails.propTypes = {
+    getPostById: PropTypes.func.isRequired,
+    deletePost: PropTypes.func.isRequired,
+    changeVotePost: PropTypes.func.isRequired,
+    post: PropTypes.object,
+    match: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired,
+}
 
 export default connect(
     mapStateToProps,
