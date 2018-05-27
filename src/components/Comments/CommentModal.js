@@ -1,8 +1,8 @@
-import '../assets/Modal.css'
+import '../../assets/Modal.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addComment, updateComment } from '../actions/comments'
+import { addComment, updateComment } from '../../actions/comments'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import DialogContent from '@material-ui/core/DialogContent'
@@ -17,7 +17,7 @@ class CommentModal extends Component {
       parentId: this.props.comment.parentId
     }
 
-    if(this.props.comment)
+    if(this.props.comment && this.props.comment.author && this.props.comment.body)
       this.state = {...this.props.comment}
   }
 

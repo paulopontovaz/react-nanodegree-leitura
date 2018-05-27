@@ -1,12 +1,12 @@
-import '../assets/PostItem.css'
+import '../../assets/PostItem.css'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
+import { deletePost, changeVotePost } from '../../actions/posts'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 import Button from '@material-ui/core/Button'
-import { deletePost, changeVotePost } from '../actions/posts'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const PostItem = props => {
@@ -20,9 +20,9 @@ const PostItem = props => {
             <header className="post-item-header">
                 <div className="title">
                     <h4>{post.title}</h4>
-                    <Button variant="flat">
-                        <Link to={`/posts/${post.id}`}>GO TO DETAILS</Link>
-                    </Button>
+                    <Link to={`/posts/${post.id}`}>
+                        <Button variant="flat">GO TO DETAILS</Button>
+                    </Link>
                 </div>
                 <div className="author">
                     <span>

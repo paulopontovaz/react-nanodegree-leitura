@@ -5,7 +5,7 @@ import { connect } from 'react-redux'
 import { Route, Link, BrowserRouter } from 'react-router-dom'
 import { getAllCategories } from '../actions/categories'
 import Category from './Category'
-import PostDetails from './PostDetails'
+import PostDetails from './Posts/PostDetails'
 
 class App extends Component {  
   state = {
@@ -16,7 +16,7 @@ class App extends Component {
     this.props.loadCategories()
   }
 
-  selectCategory = (category) => this.setState(() => ({ selectedCategory: category }))
+  selectCategory = (category) => this.setState({ selectedCategory: category })
 
   render() {
     let { selectedCategory } = this.state

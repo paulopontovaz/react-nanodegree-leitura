@@ -1,8 +1,8 @@
-import '../assets/CommentList.css'
+import '../../assets/CommentList.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getCommentsByPostId, changeCommentOrder } from '../actions/comments'
+import { getCommentsByPostId, changeCommentOrder } from '../../actions/comments'
 import Button from '@material-ui/core/Button'
 import CommentModal from './CommentModal'
 import CommentItem from './CommentItem'
@@ -28,8 +28,8 @@ class CommentList extends Component {
         this.props.getCommentsByPostId(this.props.postId)
     }
 
-    openCommentModal = (comment = null) => this.setState(() => ({ showCommentModal: true, modalComment: comment }))
-    closeCommentModal = () => this.setState(() => ({ showCommentModal: false, modalComment: null }))
+    openCommentModal = (comment = null) => this.setState({ showCommentModal: true, modalComment: comment })
+    closeCommentModal = () => this.setState({ showCommentModal: false, modalComment: null })
 
     changeOrder (newOrder, ascending) {
         this.props.changeOrder(newOrder, ascending)

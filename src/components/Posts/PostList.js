@@ -1,11 +1,11 @@
-import '../assets/PostList.css'
+import '../../assets/PostList.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { getPosts, changePostOrder } from '../actions/posts'
-import Button from '@material-ui/core/Button'
+import { getPosts, changePostOrder } from '../../actions/posts'
 import PostItem from './PostItem'
 import PostModal from './PostModal'
+import Button from '@material-ui/core/Button'
 import Dialog from '@material-ui/core/Dialog'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
@@ -22,19 +22,19 @@ class PostList extends Component {
     ascending: false,
   }
 
-  openPostModal = (post = null) => this.setState(() => ({ showPostModal: true, modalPost: post }))
-  closePostModal = () => this.setState(() => ({ showPostModal: false, modalPost: null }))
+  openPostModal = (post = null) => this.setState({ showPostModal: true, modalPost: post })
+  closePostModal = () => this.setState({ showPostModal: false, modalPost: null })
 
-  componentDidMount() {
+  componentDidMount = () => {
     this.props.loadPosts(this.props.categoryPath)
   }
 
-  changeOrder (newOrder, ascending) {
+  changeOrder = (newOrder, ascending) => {
     this.props.changeOrder(newOrder, ascending)
     this.setState({order: newOrder})
-  }
+  }  
 
-  toggleAscending (newOrder, ascending) {
+  toggleAscending = (newOrder, ascending) =>{
     this.props.changeOrder(newOrder, ascending)
     this.setState({ ascending: ascending })
   }
@@ -63,7 +63,7 @@ class PostList extends Component {
           </Select>          
         </FormControl>
         <FormControlLabel
-            label="Order crescente"
+            label="Ascending Order"
             control={
               <Checkbox
                 checked={ascending}

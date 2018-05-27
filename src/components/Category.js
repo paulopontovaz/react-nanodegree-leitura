@@ -1,7 +1,7 @@
 import '../assets/View.css'
 import React from 'react'
 import PropTypes from 'prop-types'
-import PostList from './PostList'
+import PostList from './Posts/PostList'
 
 const Category = props => {
   const { category } = props

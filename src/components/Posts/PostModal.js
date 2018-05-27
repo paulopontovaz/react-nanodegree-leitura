@@ -1,8 +1,8 @@
-import '../assets/Modal.css'
+import '../../assets/Modal.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { addPost, updatePost } from '../actions/posts'
+import { addPost, updatePost } from '../../actions/posts'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Select from '@material-ui/core/Select'
@@ -19,23 +19,32 @@ class PostModal extends Component {
       title: '', 
       author: '', 
       body: '', 
-      category: ''
+      category: '',
     }
 
     if(this.props.post)
       this.state = {...this.props.post}
   }
 
-  add (post) {
+  save (post) {
     if (post.title && post.author && post.body && post.category) {
-      let promise
+      let promise, message
 
-      if (post.id)
+      if (post.id) {
+        message = "Post updated!"
         promise = this.props.updatePost(post)
-      else
+      }
+      else {
+        message = "Post created!"
         promise = this.props.addPost(post)
+      }
 
-      promise.then(() => this.props.closeModal())
+      promise
+        .then(() => this.props.closeModal(message))
+        .catch(error => {
+          console.log(error)
+          this.props.closeModal()
+        })
     }
   }
 
@@ -82,13 +91,14 @@ class PostModal extends Component {
           </FormControl>
           
         </DialogContent>
+
         <DialogActions>
           <Button 
               variant="flat"
               onClick={closeModal}>CANCEL</Button>
           <Button 
             variant="flat"
-            onClick={() => this.add(this.state)} 
+            onClick={() => this.save(this.state)} 
             color="primary">{id ? "UPDATE" : "CREATE"}</Button>
         </DialogActions>
       </div>
@@ -106,7 +116,7 @@ PostModal.propTypes = {
   addPost: PropTypes.func.isRequired,
   updatePost: PropTypes.func.isRequired,
   closeModal: PropTypes.func.isRequired,
-  post: PropTypes.array.isRequired,
+  post: PropTypes.array,
 }
 
 export default connect(
