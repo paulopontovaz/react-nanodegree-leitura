@@ -8,4 +8,5 @@ div.view-container > header.view-header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    color: black;
 }

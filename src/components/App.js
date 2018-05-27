@@ -7,28 +7,25 @@ import { getAllCategories } from '../actions/categories'
 import Category from './Category'
 import PostDetails from './Posts/PostDetails'
 
-class App extends Component {  
-  state = {
-    selectedCategory: null,//used for applying some CSS classes
-  }
-  
+class App extends Component {
+  //Carregando a lista de categorias depois que o componente estiver montado
   componentDidMount() {
     this.props.loadCategories()
   }
 
-  selectCategory = (category) => this.setState({ selectedCategory: category })
-
   render() {
-    let { selectedCategory } = this.state
     let categories = []
 
-    if (this.props.categories) {
+    //Preparando a lista de categorias com a "Home" inserida na primeira posição.
+    //As demais virão do servidor.
+    if (this.props.categories)
       categories = [{name:'home', path:''}].concat(this.props.categories)
 
-      if (selectedCategory === null)
-        selectedCategory = categories[0]
-    }    
-
+    /*
+      O componente exibe as views de categorias e as views de detalhes cada post.
+      A view "Home" é a view padrão (root), tratada como uma das categorias.
+      O gerenciamento de mudança de página está sendo feito pelo "BrowserRouter".
+    */
     return (
       <div className="app">
         <header className="title">
@@ -40,9 +37,7 @@ class App extends Component {
             <nav>
               <ul>
                 {categories && categories.map((category) => (                  
-                  <li key={category.name}                      
-                      className={ selectedCategory && 
-                        selectedCategory.name === category.name ? 'selected-category' : '' }>
+                  <li key={category.name}>
                       <Link to={`/${category.path}`} >
                         {category.name.toUpperCase()}
                       </Link>
@@ -72,17 +67,22 @@ class App extends Component {
   }
 }
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 App.propTypes = {
   categories: PropTypes.array.isRequired,
   loadCategories: PropTypes.func.isRequired
 }
 
-const mapStateToProps = state => ({ categories: state.categories })
+//Mapeando as categorias vindas do reducer correspondente
+const mapStateToProps = ({ categories }) => ({ categories })
 
+/* Mapeando a função que chamará o action creator de 
+categorias para as propriedades do componente principal */
 const mapDispatchToProps = dispatch => ({
   loadCategories: () => dispatch(getAllCategories())
 })
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
   mapStateToProps, 
   mapDispatchToProps

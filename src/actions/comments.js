@@ -2,6 +2,8 @@ import * as CommentsAPI from '../utils/API/Comments'
 import * as ACTION_TYPES from '../utils/constants/ActionTypes'
 import uuid from 'uuid'
 
+//Actions feitas com base nas actions dos posts.
+
 function fetchComments (comments) {
   return {
     type: ACTION_TYPES.GET_COMMENTS,
@@ -16,11 +18,10 @@ function removeComment (commentId) {
   }
 }
 
-function insertComment (comment, parentPostId) {
+function insertComment (comment) {
   return {
     type: ACTION_TYPES.ADD_COMMENT,
-    comment,
-    parentPostId
+    comment
   }
 }
 
@@ -31,6 +32,8 @@ function editComment (comment) {
   }
 }
 
+//newOrder define se a ordem é: voteScore ou timestamp
+//ascending: define se a ordem é crescente ou decrescente
 function changeOrder (newOrder, ascending) {
   return {
     type: ACTION_TYPES.ORDER_COMMENTS,
@@ -77,6 +80,7 @@ export function updateComment (comment) {
       })
 }
 
+//Chama a mesma função que a função updateComment, pois também faz atualização.
 export function changeVoteComment (commentId, option) {
   return dispatch => 
     CommentsAPI.changeVote(commentId, option)

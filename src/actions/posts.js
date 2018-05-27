@@ -16,6 +16,7 @@ function fetchPost (post) {
   }
 }
 
+//Enviando a ID para filtrar o post para fora da lista.
 function removePost (postId) {
   return {
     type: ACTION_TYPES.DELETE_POST,
@@ -37,6 +38,8 @@ function editPost (post) {
   }
 }
 
+//newOrder define se a ordem é: voteScore, commentCount ou timestamp
+//ascending: define se a ordem é crescente ou decrescente
 function changeOrder (newOrder, ascending) {
   return {
     type: ACTION_TYPES.ORDER_POSTS,
@@ -75,8 +78,8 @@ export function deletePost (postId) {
 export function addPost (post) {
   const newPost = {
     ...post, 
-    timestamp: Date.now(),
-    id: uuid().replace(new RegExp('-', 'g'),'')
+    timestamp: Date.now(),//Incluindo timestamp do momento de criação do comentário.
+    id: uuid().replace(new RegExp('-', 'g'),'')//Obtendo uuid e atribuindo ao novo comentário.
   }
 
   return dispatch => 

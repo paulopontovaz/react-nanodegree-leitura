@@ -1,3 +1,4 @@
+//Arquivo criado para armazenar os nomes dos tipos das actions
 export const GET_ALL_CATEGORIES = 'GET_ALL_CATEGORIES'
 
 export const GET_POSTS = 'GET_POSTS'

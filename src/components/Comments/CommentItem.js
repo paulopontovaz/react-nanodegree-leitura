@@ -7,6 +7,7 @@ import ConfirmModal from '../Utils/ConfirmModal'
 import IconButton from '@material-ui/core/IconButton'
 import Icon from '@material-ui/core/Icon'
 
+//Componente diferente do PostItem, porque agrega também as funcionalidades do componente PostDetails.
 class CommentItem extends Component {
     state = {
         showConfirmDeleteModal: false,
@@ -64,11 +65,13 @@ class CommentItem extends Component {
     }    
 }
 
+//Mapeando função de modificação de vote score e também de deleção (diferente do PostItem).
 const mapDispatchToProps = dispatch => ({
     deleteComment: commentId => dispatch(deleteComment(commentId)),
     changeVoteComment: (commentId, option) => dispatch(changeVoteComment(commentId, option)),
 })
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 CommentItem.propTypes = {
     deleteComment: PropTypes.func.isRequired,
     changeVoteComment: PropTypes.func.isRequired,
@@ -76,6 +79,7 @@ CommentItem.propTypes = {
     comment: PropTypes.object.isRequired, 
 }
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
     null,
     mapDispatchToProps

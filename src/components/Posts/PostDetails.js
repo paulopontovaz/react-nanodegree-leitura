@@ -15,21 +15,24 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 class PostDetails extends Component {
     state = {
-        showConfirmDeleteModal: false,
-        showPostModal: false,
-        modalComment: null,
+        showConfirmDeleteModal: false,//Define a exibição da modal de confirmação de deleção de posts
+        showPostModal: false,//Define a exibição da modal de edição de posts
     }
 
+    //Carregando o post a partir da ID contida na URI.
     componentDidMount () {
         this.props.getPostById(this.props.match.params.postId)
     }
 
+    //Controlando a exibição da modal de edição de posts.
     openPostModal = () => this.setState({ showPostModal: true })
     closePostModal = () => this.setState({ showPostModal: false })
 
+    //Controlando a exibição da modal utilizada para confirmar deleção de posts.
     openConfirmDeleteModal = () => this.setState({ showConfirmDeleteModal: true })
     closeConfirmDeleteModal = () => this.setState({ showConfirmDeleteModal: false })
 
+    //Função utilizada para voltar à página anterior ao excluir um post.
     goBack = () => this.props.history.push('/')
 
     delete = postId => this.props.deletePost(postId).then(this.goBack)
@@ -40,6 +43,9 @@ class PostDetails extends Component {
         const { post } = this.props
         const { showPostModal, showConfirmDeleteModal } = this.state
 
+        /* Este componente é o maior de todos. Permite editar e remover posts, além de alterar
+        seu vote score. Além disso é possível inserir comentários, editá-los, removê-los e 
+        também alterar seus vote scores. */
         return (
             <div className="view-container">
                 <header className="view-header">
@@ -110,16 +116,21 @@ class PostDetails extends Component {
     }
 }
 
+//Mapeando o post utilizado nesta view.
 const mapStateToProps = ({ posts }, ownProps) => {
     return { post: posts.find(p => p.id === ownProps.match.params.postId) }
 }
 
+/* Esta é uma página diferente, então o post é carregado a partir dos parâmetros
+contidos na URI, que no caso é sua ID. As funções de remoção e de alteração de 
+vote score também estão sendo mapeadas. */
 const mapDispatchToProps = dispatch => ({
     getPostById: postId => dispatch(getPostById(postId)),
     deletePost: postId => dispatch(deletePost(postId)),
     changeVotePost: (post, option) => dispatch(changeVotePost(post, option)),
 })
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 PostDetails.propTypes = {
     getPostById: PropTypes.func.isRequired,
     deletePost: PropTypes.func.isRequired,
@@ -129,6 +140,7 @@ PostDetails.propTypes = {
     history: PropTypes.object.isRequired,
 }
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
     mapStateToProps,
     mapDispatchToProps

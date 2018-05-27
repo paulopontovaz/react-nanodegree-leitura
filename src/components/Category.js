@@ -6,6 +6,10 @@ import PostList from './Posts/PostList'
 const Category = props => {
   const { category } = props
 
+  /*
+    Componente básico para exibição da casca de cada view de categoria.
+    Exibe somente o título da categoria e uma referência ao "PostList".
+  */
   return (
     <div className="view-container">
       <header className="view-header">
@@ -16,6 +20,7 @@ const Category = props => {
   )
 }
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 Category.propTypes = {
   category: PropTypes.object.isRequired,
 }

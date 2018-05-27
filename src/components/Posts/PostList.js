@@ -16,24 +16,30 @@ import Checkbox from '@material-ui/core/Checkbox'
 
 class PostList extends Component {
   state = {
-    showPostModal: false,
-    modalPost: null,
-    order: 'voteScore',
-    ascending: false,
+    showPostModal: false,//Exibir a modal de criação de post
+    modalPost: null,//O post a ser passado para a modal de edição e criação de posts.
+    order: 'voteScore',//Tipo de ordenação dos posts.
+    ascending: false,//Indicador de ordem crescente ou decrescente.
   }
 
+  //Abrir a modal para adicionar um novo post.
   openPostModal = (post = null) => this.setState({ showPostModal: true, modalPost: post })
+  //Fechar a modal de adicionar post.
   closePostModal = () => this.setState({ showPostModal: false, modalPost: null })
 
+  /* Após montar o componente, os posts são carregados, passando para a função a devida categoria.
+  Se nenhuma categoria for passada (na propriedade "categoryPath"), todos os posts serão carregados. */
   componentDidMount = () => {
     this.props.loadPosts(this.props.categoryPath)
   }
 
+  //Modifica o tipo de ordenação dos posts.
   changeOrder = (newOrder, ascending) => {
     this.props.changeOrder(newOrder, ascending)
     this.setState({order: newOrder})
   }  
 
+  //Alterna a ordenação  dos posts entre crescente e decrescente.
   toggleAscending = (newOrder, ascending) =>{
     this.props.changeOrder(newOrder, ascending)
     this.setState({ ascending: ascending })
@@ -43,6 +49,12 @@ class PostList extends Component {
     const { categoryPath, posts } = this.props
     const { showPostModal, modalPost, order, ascending } = this.state
 
+    /*
+        Este componente apresenta um botão para acionar a modal com um formulário para adicionar um post.
+        Além disso é possível ordenar os posts de até seis maneiras diferentes, combinando o tipo de ordenação
+      e a definição da ordem como crescente ou decrescente.
+        Também há uma lista de posts cuja função map chama os respectivos "PostItems".
+    */
     return (
       <div className="post-list">
         <Button
@@ -88,13 +100,17 @@ class PostList extends Component {
   }
 }
 
+//Mapeando os posts vindos do reducer para a propriedade correspondente
 const mapStateToProps = ({ posts }) => ({ posts })
 
+/* Mapeando as funções que chamarão os action creators de 
+carregamento de posts e de mudança na sua ordenação. */
 const mapDispatchToProps = dispatch => ({
   loadPosts: categoryPath => dispatch(getPosts(categoryPath)),
   changeOrder: (newOrder, ascending) => dispatch(changePostOrder(newOrder, ascending)),
 })
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 PostList.propTypes = {
   loadPosts: PropTypes.func.isRequired,
   changeOrder: PropTypes.func.isRequired,
@@ -102,6 +118,7 @@ PostList.propTypes = {
   categoryPath: PropTypes.string.isRequired,
 }
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
   mapStateToProps,
   mapDispatchToProps

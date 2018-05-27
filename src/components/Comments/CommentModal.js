@@ -8,6 +8,7 @@ import TextField from '@material-ui/core/TextField'
 import DialogContent from '@material-ui/core/DialogContent'
 import DialogActions from '@material-ui/core/DialogActions'
 
+//Componente com funcionalidade similar à do componente PostModal.
 class CommentModal extends Component {
   constructor (props) {
     super(props)
@@ -21,7 +22,7 @@ class CommentModal extends Component {
       this.state = {...this.props.comment}
   }
 
-  add (comment) {
+  save (comment) {
     if (comment.author && comment.body) {
       let promise
 
@@ -62,7 +63,7 @@ class CommentModal extends Component {
             onClick={closeModal}>CANCEL</Button>
           <Button 
             variant="flat"
-            onClick={() => this.add(this.state)} 
+            onClick={() => this.save(this.state)} 
             color="primary">{id ? "UPDATE" : "CREATE"}</Button>
         </DialogActions>
       </div>
@@ -75,6 +76,7 @@ const mapDispatchToProps = dispatch => ({
     updateComment: comment => dispatch(updateComment(comment)),
 })
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 CommentModal.propTypes = {
     addComment: PropTypes.func.isRequired,
     updateComment: PropTypes.func.isRequired,
@@ -82,6 +84,7 @@ CommentModal.propTypes = {
     comment: PropTypes.object.isRequired,
 }
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
     null,
     mapDispatchToProps

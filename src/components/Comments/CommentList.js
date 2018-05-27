@@ -16,26 +16,33 @@ import InputLabel from '@material-ui/core/InputLabel'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 
+//Componente com funcionalidade similar ao "PostList"
 class CommentList extends Component {
     state = {
-        showCommentModal: false,
-        modalComment: null,
-        order: 'voteScore',
-        ascending: false,
+        showCommentModal: false,//Define exibição da modal de criação de comentários.
+        modalComment: null,//Comentário a ser passado para a modal de criação e edição de comentários.
+        order: 'voteScore',//Tipo de ordenação dos posts.
+        ascending: false,//Indicador de ordem crescente ou decrescente.
     }
 
+    /* Após montar o componente, os posts são carregados, passando para a função a id do post referente
+    à tela de detalhes em questão. */
     componentWillMount () {
         this.props.getCommentsByPostId(this.props.postId)
     }
 
+    //Abrir a modal para adicionar um novo comentário.
     openCommentModal = (comment = null) => this.setState({ showCommentModal: true, modalComment: comment })
+    //Fechar a modal de adicionar comentário.
     closeCommentModal = () => this.setState({ showCommentModal: false, modalComment: null })
 
+    //Modifica o tipo de ordenação dos comentários.
     changeOrder (newOrder, ascending) {
         this.props.changeOrder(newOrder, ascending)
         this.setState({order: newOrder})
     }
 
+    //Alterna a ordenação dos comentários entre crescente e decrescente.
     toggleAscending (newOrder, ascending) {
         this.props.changeOrder(newOrder, ascending)
         this.setState({ ascending: ascending })
@@ -45,6 +52,9 @@ class CommentList extends Component {
         const { comments, postId } = this.props
         const { showCommentModal, modalComment, order, ascending } = this.state
 
+        /* Exibe a contagem de comentários do post cuja de detalhes está sendo exibida.
+        É possível ordenar os comentários por vote score e por data. O restante da 
+        funcionalidade segue a lógica da lista de posts. */
         return (
             <div className="comment-list">
                 {comments && (
@@ -62,7 +72,7 @@ class CommentList extends Component {
                                 className="new-comment"
                                 color="primary"
                                 variant="outlined"
-                                onClick={() => this.openCommentModal()}>NEW COMMENT</Button>
+                                onClick={this.openCommentModal}>NEW COMMENT</Button>
                         </header>
                         <FormControl fullWidth={true} className='modal-form-field'>
                             <InputLabel htmlFor="post-order">Order by</InputLabel>
@@ -110,6 +120,7 @@ const mapDispatchToProps = dispatch => ({
     changeOrder: (newOrder, ascending) => dispatch(changeCommentOrder(newOrder, ascending)),
 })
 
+//Certificando que as devidas propriedades estejam presentes e no formato certo
 CommentList.propTypes = {
     getCommentsByPostId: PropTypes.func.isRequired,
     changeOrder: PropTypes.func.isRequired,
@@ -117,6 +128,7 @@ CommentList.propTypes = {
     postId: PropTypes.string.isRequired,
 }
 
+//Enviando os mapeamentos para propriedades, com o "connect"
 export default connect(
     mapStateToProps,
     mapDispatchToProps
