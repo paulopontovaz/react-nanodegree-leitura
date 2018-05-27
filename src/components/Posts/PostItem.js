@@ -74,7 +74,6 @@ const mapDispatchToProps = dispatch => ({
 
 //Certificando que as devidas propriedades estejam presentes e no formato certo
 PostItem.propTypes = {
-    deletePost: PropTypes.func.isRequired,
     changeVotePost: PropTypes.func.isRequired,
     post: PropTypes.object.isRequired,
     isHome: PropTypes.bool,

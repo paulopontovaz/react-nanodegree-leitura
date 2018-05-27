@@ -105,7 +105,8 @@ class CommentList extends Component {
                     title="Add Comment"
                     open={showCommentModal}>
                         <CommentModal 
-                            comment={modalComment || { parentId: postId } }                             
+                            postId={postId}
+                            comment={modalComment}                             
                             closeModal={this.closeCommentModal} />
                 </Dialog>
             </div>           

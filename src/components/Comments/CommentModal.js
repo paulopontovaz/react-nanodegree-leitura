@@ -15,7 +15,7 @@ class CommentModal extends Component {
     this.state = { 
       author: '', 
       body: '', 
-      parentId: this.props.comment.parentId
+      parentId: this.props.postId
     }
 
     if(this.props.comment && this.props.comment.author && this.props.comment.body)
@@ -81,7 +81,8 @@ CommentModal.propTypes = {
     addComment: PropTypes.func.isRequired,
     updateComment: PropTypes.func.isRequired,
     closeModal: PropTypes.func.isRequired,
-    comment: PropTypes.object.isRequired,
+    postId: PropTypes.string.isRequired,
+    comment: PropTypes.object,
 }
 
 //Enviando os mapeamentos para propriedades, com o "connect"
