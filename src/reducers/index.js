@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
-import sortBy from 'sort-by'
 import * as ACTION_TYPES from '../utils/constants/ActionTypes'
+import * as ORDER_TYPES from '../utils/constants/OrderTypes'
 
 //Reducer de categorias. Criado apenas para obter a lista total de categorias.
 function categories(state = [], action) {
@@ -16,11 +16,7 @@ function categories(state = [], action) {
 function posts(state = [], action) {
     switch (action.type) {
         case ACTION_TYPES.GET_POSTS:
-            let posts = action.posts
-            //Preordenando a lista de posts decrescentemente, utilizando o "sortBy".
-            posts.sort(sortBy('-voteScore'))
-
-            return posts
+            return action.posts
 
         case ACTION_TYPES.GET_POST:
             /* Para manter o formato de retorno, ao solicitar um post pela ID,
@@ -39,36 +35,26 @@ function posts(state = [], action) {
             return state.map(post => post.id === action.post.id ? 
                 {...post, ...action.post} : post)
 
-        case ACTION_TYPES.ORDER_POSTS:
-            let orderedPosts = Object.assign([], state)
-
-            /* Se a newOrder não foi passada, então a ordenação é a padrão: 
-            decrescente pelo vote score. */
-            if(!action.newOrder)
-                orderedPosts.sort(sortBy('-voteScore'))
-            else {
-                /* Acrescenta '-' à string de ordenação passada ao sortBy, 
-                caso a propriedade "ascending" for false. */
-                const order = action.ascending === true ? action.newOrder : '-' + action.newOrder
-                orderedPosts.sort(sortBy(order))
-            }
-
-            return orderedPosts
-
         default:
             return state
     }
+}
+
+//Reducer cujo estado armazena o tipo de ordenação dos posts.
+function postListOrder(state = {orderType: ORDER_TYPES.VOTE_SCORE, ascending: false}, action) {
+    switch (action.type) {
+        case ACTION_TYPES.CHANGE_ORDER_POSTS:
+            return {orderType: action.orderType, ascending: action.ascending}
+        default:
+            return state
+    }    
 }
 
 //Reducer de comentários, feito baseado no de posts.
 function comments(state = [], action) {
     switch (action.type) {
         case ACTION_TYPES.GET_COMMENTS:
-            let comments = action.comments
-
-            comments.sort(sortBy('-voteScore'))
-
-            return comments
+            return action.comments
 
         case ACTION_TYPES.DELETE_COMMENT:
             return state.filter(p => p.id !== action.commentId)
@@ -80,26 +66,26 @@ function comments(state = [], action) {
             return state.map(comment => comment.id === action.comment.id ? 
                 {...comment, ...action.comment} : comment)
 
-        case ACTION_TYPES.ORDER_COMMENTS:
-            let orderedComments = Object.assign([], state)
-
-            if(!action.newOrder)
-                orderedComments.sort(sortBy('-voteScore'))
-            else {
-                const order = action.ascending === true ? action.newOrder : '-' + action.newOrder
-                orderedComments.sort(sortBy(order))
-            }
-
-            return orderedComments
-
         default:
             return state
     }
+}
+
+//Reducer cujo estado armazena o tipo de ordenação dos comments.
+function commentListOrder(state = {orderType: ORDER_TYPES.VOTE_SCORE, ascending: false}, action) {
+    switch (action.type) {
+        case ACTION_TYPES.CHANGE_ORDER_COMMENTS:
+            return {orderType: action.orderType, ascending: action.ascending}
+        default:
+            return state
+    } 
 }
 
 //Combinando os três reducers num só objeto, com "combineReducers".
 export default combineReducers ({
 	categories,
 	posts,
-    comments
+    postListOrder,
+    comments,
+    commentListOrder,
 })

@@ -1,8 +1,10 @@
 import '../../assets/PostList.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import sortBy from 'sort-by'
 import { connect } from 'react-redux'
 import { getPosts, changePostOrder } from '../../actions/posts'
+import * as ORDER_TYPES from '../../utils/constants/OrderTypes'
 import PostItem from './PostItem'
 import PostModal from './PostModal'
 import Button from '@material-ui/core/Button'
@@ -18,7 +20,7 @@ class PostList extends Component {
   state = {
     showPostModal: false,//Exibir a modal de criação de post
     modalPost: null,//O post a ser passado para a modal de edição e criação de posts.
-    order: 'voteScore',//Tipo de ordenação dos posts.
+    orderType: ORDER_TYPES.VOTE_SCORE,//Tipo de ordenação dos posts.
     ascending: false,//Indicador de ordem crescente ou decrescente.
   }
 
@@ -34,20 +36,20 @@ class PostList extends Component {
   }
 
   //Modifica o tipo de ordenação dos posts.
-  changeOrder = (newOrder, ascending) => {
-    this.props.changeOrder(newOrder, ascending)
-    this.setState({order: newOrder})
+  changeOrder = (orderType, ascending) => {
+    this.props.changeOrder(orderType, ascending)
+    this.setState({ orderType })
   }  
 
   //Alterna a ordenação  dos posts entre crescente e decrescente.
-  toggleAscending = (newOrder, ascending) =>{
-    this.props.changeOrder(newOrder, ascending)
-    this.setState({ ascending: ascending })
+  toggleAscending = (orderType, ascending) => {
+    this.props.changeOrder(orderType, ascending)
+    this.setState({ ascending })
   }
 
   render() {
     const { categoryPath, posts } = this.props
-    const { showPostModal, modalPost, order, ascending } = this.state
+    const { showPostModal, modalPost, orderType, ascending } = this.state
 
     /*
         Este componente apresenta um botão para acionar a modal com um formulário para adicionar um post.
@@ -67,7 +69,7 @@ class PostList extends Component {
           <InputLabel htmlFor="post-order">Order by</InputLabel>
           <Select
             inputProps={{name: 'post-order', id: 'post-order'}}
-            value={order}
+            value={orderType}
             onChange={event => this.changeOrder(event.target.value, ascending)}>
               <MenuItem value='voteScore'>Vote Score</MenuItem>
               <MenuItem value='commentCount'>Comment Count</MenuItem>
@@ -79,7 +81,7 @@ class PostList extends Component {
             control={
               <Checkbox
                 checked={ascending}
-                onChange={(event, checked) => this.toggleAscending(order, checked)}
+                onChange={(event, checked) => this.toggleAscending(orderType, checked)}
                 value='ascending'
               />
             }/>
@@ -100,8 +102,15 @@ class PostList extends Component {
   }
 }
 
-//Mapeando os posts vindos do reducer para a propriedade correspondente
-const mapStateToProps = ({ posts }) => ({ posts })
+/* Mapeando os posts vindos do reducer para a propriedade correspondente.
+Obtém a lista de comentários e a ordena de acordo com o reducer postListOrder. */
+const mapStateToProps = ({ posts, postListOrder }) => {
+    /* Acrescenta '-' à string de ordenação passada ao sortBy, 
+    caso a propriedade "ascending" for false. */
+    const orderString = postListOrder.ascending === true ? 
+      postListOrder.orderType : '-' + postListOrder.orderType
+    return { posts: posts.sort(sortBy(orderString)) }
+}
 
 /* Mapeando as funções que chamarão os action creators de 
 carregamento de posts e de mudança na sua ordenação. */
@@ -114,8 +123,8 @@ const mapDispatchToProps = dispatch => ({
 PostList.propTypes = {
   loadPosts: PropTypes.func.isRequired,
   changeOrder: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
-  // categoryPath: PropTypes.string.isRequired,
+  categoryPath: PropTypes.string,
+  posts: PropTypes.array,
 }
 
 //Enviando os mapeamentos para propriedades, com o "connect"

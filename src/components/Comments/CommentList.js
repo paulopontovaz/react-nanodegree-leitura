@@ -1,6 +1,7 @@
 import '../../assets/CommentList.css'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import sortBy from 'sort-by'
 import { connect } from 'react-redux'
 import { getCommentsByPostId, changeCommentOrder } from '../../actions/comments'
 import Button from '@material-ui/core/Button'
@@ -21,7 +22,7 @@ class CommentList extends Component {
     state = {
         showCommentModal: false,//Define exibição da modal de criação de comentários.
         modalComment: null,//Comentário a ser passado para a modal de criação e edição de comentários.
-        order: 'voteScore',//Tipo de ordenação dos posts.
+        orderType: 'voteScore',//Tipo de ordenação dos posts.
         ascending: false,//Indicador de ordem crescente ou decrescente.
     }
 
@@ -37,20 +38,20 @@ class CommentList extends Component {
     closeCommentModal = () => this.setState({ showCommentModal: false, modalComment: null })
 
     //Modifica o tipo de ordenação dos comentários.
-    changeOrder (newOrder, ascending) {
-        this.props.changeOrder(newOrder, ascending)
-        this.setState({order: newOrder})
+    changeOrder (orderType, ascending) {
+        this.props.changeOrder(orderType, ascending)
+        this.setState({ orderType })
     }
 
     //Alterna a ordenação dos comentários entre crescente e decrescente.
-    toggleAscending (newOrder, ascending) {
-        this.props.changeOrder(newOrder, ascending)
-        this.setState({ ascending: ascending })
+    toggleAscending (orderType, ascending) {
+        this.props.changeOrder(orderType, ascending)
+        this.setState({ ascending })
     }
 
     render() {
         const { comments, postId } = this.props
-        const { showCommentModal, modalComment, order, ascending } = this.state
+        const { showCommentModal, modalComment, orderType, ascending } = this.state
 
         /* Exibe a contagem de comentários do post cuja de detalhes está sendo exibida.
         É possível ordenar os comentários por vote score e por data. O restante da 
@@ -78,18 +79,18 @@ class CommentList extends Component {
                             <InputLabel htmlFor="post-order">Order by</InputLabel>
                             <Select
                                 inputProps={{name: 'post-order', id: 'post-order'}}
-                                value={order}
+                                value={orderType}
                                 onChange={event => this.changeOrder(event.target.value, ascending)}>
                                 <MenuItem value='voteScore'>Vote Score</MenuItem>
                                 <MenuItem value='timestamp'>Date</MenuItem>
                             </Select>
                         </FormControl>
                         <FormControlLabel
-                            label="Order crescente"
+                            label="Ascending order"
                             control={
                                 <Checkbox
                                     checked={ascending}
-                                    onChange={(event, checked) => this.toggleAscending(order, checked)}
+                                    onChange={(event, checked) => this.toggleAscending(orderType, checked)}
                                     value='ascending'
                                 />
                             }/>
@@ -113,8 +114,15 @@ class CommentList extends Component {
         )
     }
 }
-
-const mapStateToProps = ({ comments }) => ({ comments })
+/* Mapeando os comentários vindos do reducer para a propriedade correspondente.
+Obtém a lista de comentários e a ordena de acordo com o reducer commentListOrder. */
+const mapStateToProps = ({ comments, commentListOrder }) => {
+    /* Acrescenta '-' à string de ordenação passada ao sortBy, 
+    caso a propriedade "ascending" for false. */
+    const orderString = commentListOrder.ascending === true ? 
+      commentListOrder.orderType : '-' + commentListOrder.orderType
+    return { comments: comments.sort(sortBy(orderString)) }
+}
 
 const mapDispatchToProps = dispatch => ({
     getCommentsByPostId: postId => dispatch(getCommentsByPostId(postId)),

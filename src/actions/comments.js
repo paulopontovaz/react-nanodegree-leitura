@@ -32,18 +32,18 @@ function editComment (comment) {
   }
 }
 
-//newOrder define se a ordem é: voteScore ou timestamp
+//orderType define se a ordem é: voteScore ou timestamp
 //ascending: define se a ordem é crescente ou decrescente
-function changeOrder (newOrder, ascending) {
+function changeOrder (orderType, ascending) {
   return {
-    type: ACTION_TYPES.ORDER_COMMENTS,
-    newOrder,
+    type: ACTION_TYPES.CHANGE_ORDER_COMMENTS,
+    orderType,
     ascending
   }
 }
 
-export function changeCommentOrder (newOrder, ascending) {
-  return dispatch => dispatch(changeOrder(newOrder, ascending))
+export function changeCommentOrder (orderType, ascending) {
+  return dispatch => dispatch(changeOrder(orderType, ascending))
 }
 
 export function getCommentsByPostId (postId) {
