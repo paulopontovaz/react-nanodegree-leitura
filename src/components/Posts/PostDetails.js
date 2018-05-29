@@ -51,7 +51,8 @@ class PostDetails extends Component {
                 <header className="view-header">
                     <h2>Post Details</h2>
                 </header>
-                {post && 
+                {!post && <div className="not-found">Post não encontrado!</div>}
+                {post && (
                     <div className="post-item details">
                         <div className="category"><span>{post.category.toUpperCase()}</span></div>
                         <header className="post-item-header">
@@ -110,16 +111,15 @@ class PostDetails extends Component {
                             onCancel={this.closeConfirmDeleteModal} 
                             itemType="post" />
                     </div>
-                }
+                )}
             </div>                      
         )
     }
 }
 
 //Mapeando o post utilizado nesta view.
-const mapStateToProps = ({ posts }, ownProps) => {
-    return { post: posts.find(p => p.id === ownProps.match.params.postId) }
-}
+const mapStateToProps = ({ posts }, ownProps) => 
+    ({ post: posts.find(p => p.id === ownProps.match.params.postId) })
 
 /* Esta é uma página diferente, então o post é carregado a partir dos parâmetros
 contidos na URI, que no caso é sua ID. As funções de remoção e de alteração de 

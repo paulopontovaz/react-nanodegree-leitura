@@ -115,7 +115,7 @@ PostList.propTypes = {
   loadPosts: PropTypes.func.isRequired,
   changeOrder: PropTypes.func.isRequired,
   posts: PropTypes.array.isRequired,
-  categoryPath: PropTypes.string.isRequired,
+  // categoryPath: PropTypes.string.isRequired,
 }
 
 //Enviando os mapeamentos para propriedades, com o "connect"

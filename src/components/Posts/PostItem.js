@@ -31,7 +31,7 @@ const PostItem = props => {
             <header className="post-item-header">
                 <div className="title">
                     <h4>{post.title}</h4>
-                    <Link to={`/posts/${post.id}`}>
+                    <Link to={`/${post.category}/${post.id}`}>
                         <Button variant="flat">GO TO DETAILS</Button>
                     </Link>
                 </div>

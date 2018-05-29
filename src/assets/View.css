@@ -10,3 +10,7 @@ div.view-container > header.view-header {
     justify-content: space-between;
     color: black;
 }
+div.view-container > div.not-found { 
+	margin-top: 2rem;
+	color: black; 
+}

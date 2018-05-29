@@ -47,14 +47,9 @@ class App extends Component {
             </nav>          
             
             <div className="main-container">
-              {categories && categories.map((category) => (
-                <Route exact path={`/${category.path}`}
-                        key={category.name}
-                        render={() => (
-                          <Category category={category} />
-                    )} />
-              ))}
-              <Route exact path='/posts/:postId' component={PostDetails} />
+              <Route exact path='/' component={Category} />
+              <Route exact path='/:category' component={Category} />
+              <Route exact path='/:category/:postId' component={PostDetails} />
             </div>
           </main>
         </BrowserRouter>        

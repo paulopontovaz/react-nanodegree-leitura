@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import PostList from './Posts/PostList'
 
 const Category = props => {
-  const { category } = props
+  const { category } = props.match.params
 
   /*
     Componente básico para exibição da casca de cada view de categoria.
@@ -13,16 +13,16 @@ const Category = props => {
   return (
     <div className="view-container">
       <header className="view-header">
-        <h2>{category.name.toUpperCase()}</h2>
+        <h2>{category ? category.toUpperCase() : "HOME"}</h2>
       </header>
-      <PostList categoryPath={category.path} />
+      <PostList categoryPath={category} />
     </div>
   )
 }
 
 //Certificando que as devidas propriedades estejam presentes e no formato certo
 Category.propTypes = {
-  category: PropTypes.object.isRequired,
+  match: PropTypes.object.isRequired,
 }
 
 export default Category
